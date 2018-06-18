@@ -1,11 +1,24 @@
-import mongodb, { MongoClient } from "mongodb";
-import assert from "assert";
-import { dbName, url } from "./config";
+// Main starting point of the application
+const mysql = require('mysql');
+const config = require('./config');
 
-MongoClient.connect(url, (err, client) => {
-    assert.equal(null, null);
-    console.log("Connected successdully to server");
+console.log(config.hostname);
 
-    const db  = client.db(dbName);
-    client.close();
-});
+
+
+var connection = mysql.createConnection({
+    host        : config.hostname,
+    port        : config.port,
+    user        : config.username,
+    password    : config.password,
+    database    : config.database
+  });
+   
+  connection.connect();
+
+  connection.query('SELECT * FROM residents', (error, results, fields) => {
+    if (error) throw error;
+      console.log(results);
+  })
+   
+  connection.end();
