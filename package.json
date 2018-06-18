@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Back-end for the info-screen and intranet pages at Otto Mønsteds Kollegium",
   "main": "index.js",
+  "scripts": {
+    "start":  "index.js"
+  },
   "repository": "https://github.com/Pkingo/Info-Screen-Server.git",
   "author": "Pkingo <pkingo14@student.aau.dk>",
   "license": "MIT",
