@@ -1,24 +1,36 @@
-// Main starting point of the application
-const mysql = require('mysql');
-const config = require('./config');
+// Lib imports
+var express       = require('express');
+var session       = require('express-session');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var morgan        = require('morgan');
+var passport      = require('passport');
+var flash         = require('connect-flash');
 
-console.log(config.hostname);
+var Config = require('./config');
+
+require('./config/passport')(passport);
+var app = express();
+var port  = process.env.port || 8080;
+
+app.use(morgan('dev')); 
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set('view engine', 'ejs');
+
+app.use(session({
+  secret: Config.secret,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+require('./app/routes.js')(app, passport);
+
+app.listen(port);
+console.log("Listning on port " + port);
 
 
-
-var connection = mysql.createConnection({
-    host        : config.hostname,
-    port        : config.port,
-    user        : config.username,
-    password    : config.password,
-    database    : config.database
-  });
-   
-  connection.connect();
-
-  connection.query('SELECT * FROM residents', (error, results, fields) => {
-    if (error) throw error;
-      console.log(results);
-  })
-   
-  connection.end();
