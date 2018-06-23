@@ -34,10 +34,15 @@ module.exports = function(app, passport) {
     app.get('/logout', (req, res) => { 
 		req.logout();
 		res.redirect('/');
-	});
+    });
+    
+    app.get('/residents', isLoggedIn, passport.authenticate('get-residents'), (req, res) => {
+        res.send({ message: "Hi"});
+    });
 };
 
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) return next();
 	res.redirect('/');
 }
+
