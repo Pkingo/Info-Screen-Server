@@ -1,5 +1,6 @@
 module.exports = {
     Residents   : "residents",
     Users       : "users",
-    Roles       : "roles"
+    Roles       : "roles",
+    UserTypes   : "userTypes",
 }
