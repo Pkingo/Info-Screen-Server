@@ -9,7 +9,7 @@ var flash         = require('connect-flash');
 
 var Config = require('./config');
 
-require('./config/passport')(passport);
+require('./passports/user_passport')(passport);
 var app = express();
 var port  = process.env.port || 8080;
 
