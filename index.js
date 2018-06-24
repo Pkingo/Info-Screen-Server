@@ -7,8 +7,8 @@ const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const username = "omk_dk";
-const password = "1qaz2wsx3edc";
+var username = "omk_dk";
+var password = "1qaz2wsx3edc";
 
 var url = `mongodb+srv://omk_dk:1qaz2wsx3edc@cluster0-xqfbc.mongodb.net/test`;
 

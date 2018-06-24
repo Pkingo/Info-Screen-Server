@@ -12,16 +12,17 @@ userSchema.pre('save', next => {
     bcrypt.genSalt(10, (error, salt) => {
         if (error) return next(error);
         bcrypt.hash(user.password, salt, null, (error, hash) => {
-            if (error) return next(error);
+            if (error) { return next(error); }
             user.password = hash;
             next();
         });
     });
 });
 
-userSchema.methods.comparePassword = function(condidatePassword, callback) {
-    bcrypt.compare(condidatePassword, this.password, (error, isMatch) => {
-        if (error) return callback(error);
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
+    bcrypt.compare(candidatePassword, this.password, (error, isMatch) => {
+        if (error) { return callback(error); }
+        callback(null, isMatch);
     });
 }
 
