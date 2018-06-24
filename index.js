@@ -1,36 +1,25 @@
-// Lib imports
-var express       = require('express');
-var session       = require('express-session');
-var cookieParser  = require('cookie-parser');
-var bodyParser    = require('body-parser');
-var morgan        = require('morgan');
-var passport      = require('passport');
-var flash         = require('connect-flash');
+const express = require('express');
+const http = require('http');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const app = express();
+const router = require('./router');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
-var Config = require('./config');
+const username = "omk_dk";
+const password = "1qaz2wsx3edc";
 
-require('./passports/user_passport')(passport);
-var app = express();
-var port  = process.env.port || 8080;
+var url = `mongodb+srv://omk_dk:1qaz2wsx3edc@cluster0-xqfbc.mongodb.net/test`;
 
-app.use(morgan('dev')); 
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
+mongoose.connect(url);
 
-app.set('view engine', 'ejs');
+app.use(morgan('combined'));
+app.use(cors());
+app.use(bodyParser.json({ type: '*/*' }));
+router(app);
 
-app.use(session({
-  secret: Config.secret,
-  resave: true,
-  saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-
-require('./app/routes.js')(app, passport);
-
-app.listen(port);
-console.log("Listning on port " + port);
-
-
+const port = process.env.PORT || 3090;
+const server = http.createServer(app);
+server.listen(port);
+console.log("Server is running on port " + port);
